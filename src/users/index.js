@@ -1,30 +1,18 @@
-const Datastore = require('@google-cloud/datastore');
-
-const datastore = Datastore();
-const kind = 'User';
+const UserService  = require('./UserService');
 
 exports.putUser = function putOrder (req, res) {
 
-  const username = getUsername(req.body);
-  const name = getName(req.body);
-  const key = datastore.key([kind, username]);
-  const created = new Date().toISOString();
+  const eventData = {
+    username: getUsername(req.body),
+    name: getName(req.body),
+    created: new Date().toISOString()
+  }
 
-  const entity = {
-    key: key,
-    data: {
-      type: "UserRegistered",
-      username,
-      name,
-      created
-    }
-  };
-
-  return datastore.save(entity)
-    .then(() => res.status(200).send(`Event for ${username} submitted successfully.`))
+  return UserService.insertEvent(eventData.username, eventData)
+    .then(() => res.status(200).send(`Event for ${eventData.username} submitted successfully.`))
     .catch((err) => {
       console.error(err);
-      res.status(500).send(err);
+      res.status(500).send("Error processing request");
       return Promise.reject(err);
     });
 };
