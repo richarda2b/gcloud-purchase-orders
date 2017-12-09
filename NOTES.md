@@ -1,0 +1,3 @@
+Debug messages
+
+`--verbosity debug`
