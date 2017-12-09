@@ -8,19 +8,20 @@ exports.putUser = function putOrder (req, res) {
   const username = getUsername(req.body);
   const name = getName(req.body);
   const key = datastore.key([kind, username]);
-  const registered = new Date().toISOString();
+  const created = new Date().toISOString();
 
   const entity = {
     key: key,
     data: {
-      username: username,
-      name: name,
-      registered: registered
+      type: "UserRegistered",
+      username,
+      name,
+      created
     }
   };
 
   return datastore.save(entity)
-    .then(() => res.status(200).send(`User ${username} registered successfully.`))
+    .then(() => res.status(200).send(`Event for ${username} submitted successfully.`))
     .catch((err) => {
       console.error(err);
       res.status(500).send(err);

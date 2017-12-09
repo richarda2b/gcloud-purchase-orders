@@ -11,13 +11,18 @@ exports.putOrder = function putOrder (req, res) {
   }
 
   const key = generateKey(req.body);
+  const created = new Date().toISOString();
   const entity = {
     key: key,
-    data: req.body.value
+    data: {
+      type: "OrderCreated",
+      data: req.body.value,
+      created
+    }
   };
 
   return datastore.save(entity)
-    .then(() => res.status(200).send(`Order ${key.path.join('/')} saved.`))
+    .then(() => res.status(200).send(`Event ${key.path.join('/')} saved.`))
     .catch((err) => {
       console.error(err);
       res.status(500).send(err);
