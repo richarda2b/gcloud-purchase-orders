@@ -1,4 +1,3 @@
 #!/bin/bash
 
-rm -rf src/orders/node_modules
 gcloud beta functions deploy putOrder --source src/orders/ --stage-bucket gs://purchase-orders-hello-world --trigger-http

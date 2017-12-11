@@ -1,4 +1,3 @@
 #!/bin/bash
 
-rm -rf src/users/node_modules
 gcloud beta functions deploy putUser --source src/users/ --stage-bucket gs://purchase-orders-hello-world --trigger-http
